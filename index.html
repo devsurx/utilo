@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<!-- UTILO — index of Surx's small tools. Single file, no deps. -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>utilo_ — small tools i wish already existed</title>
+<meta name="description" content="Utilo is an index of small tools by Surx. No pitch. Just links and source.">
+<link rel="icon" type="image/jpeg" href="utilo.jpg">
+<style>
+  :root{
+    --bg:#08090b;
+    --panel:#0e0f12;
+    --panel2:#121317;
+    --text:#ededed;
+    --muted:#9a9a9a;
+    --dim:#5c5c5c;
+    --line:rgba(255,255,255,.09);
+    --line-soft:rgba(255,255,255,.05);
+    --mono:"Berkeley Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--mono);
+    font-size:.9rem;
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;z-index:-2;
+    background:
+      linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px),
+      linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px),
+      radial-gradient(1000px 500px at 75% -10%,rgba(255,255,255,.06),transparent 60%),
+      var(--bg);
+    background-size:64px 64px,64px 64px,16px 16px,16px 16px,auto,auto;
+  }
+  ::selection{background:#ededed;color:#08090b}
+  a{color:inherit}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 32px}
+
+  /* splash */
+  #splash{
+    position:fixed;inset:0;z-index:200;background:var(--bg);
+    display:flex;flex-direction:column;gap:18px;align-items:center;justify-content:center;
+    transition:opacity .5s ease,visibility .5s;
+  }
+  #splash.hide{opacity:0;visibility:hidden;pointer-events:none}
+  #splash img{width:96px;height:96px;object-fit:cover;border-radius:22px;border:1px solid var(--line)}
+  #splash .s-t{font-weight:700;font-size:1.2rem;letter-spacing:-.5px}
+  #splash .s-s{color:var(--dim);font-size:.75rem}
+  #splash .bar{width:120px;height:2px;background:var(--line-soft);overflow:hidden;border-radius:2px}
+  #splash .bar i{display:block;height:100%;width:40%;background:var(--text);animation:load 1s linear infinite}
+  @keyframes load{from{transform:translateX(-100%)}to{transform:translateX(300%)}}
+  @media (prefers-reduced-motion:reduce){#splash{transition:none}#splash .bar i{animation:none}}
+
+  header{position:sticky;top:0;z-index:50;background:rgba(8,9,11,.82);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line-soft)}
+  .nav{display:flex;justify-content:space-between;align-items:center;height:60px;font-size:.82rem}
+  .wordmark{text-decoration:none;font-weight:700;font-size:1rem;display:flex;align-items:center;gap:10px}
+  .wordmark img{width:26px;height:26px;object-fit:cover;border-radius:7px;border:1px solid var(--line)}
+  .wordmark i{font-style:normal;color:var(--dim)}
+  .nav-links{display:flex;gap:24px;align-items:center}
+  .nav-links a{color:var(--muted);text-decoration:none}
+  .nav-links a:hover{color:var(--text)}
+  .nav-links a.nl::before{content:"./";color:var(--dim)}
+  .btn{border:1px solid var(--line);padding:7px 14px;border-radius:7px;text-decoration:none;color:var(--text)!important}
+  .btn:hover{background:#ededed;color:#08090b!important;border-color:#ededed}
+
+  .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center;padding:88px 0 64px}
+  .eyebrow{color:var(--muted);font-size:.78rem;margin-bottom:18px}
+  .eyebrow b{color:var(--text)}
+  h1{font-size:clamp(2rem,4vw,3rem);font-weight:700;line-height:1.15;letter-spacing:-1.5px}
+  h1 span{color:var(--dim);font-weight:400}
+  .lede{color:var(--muted);margin-top:18px;max-width:46ch}
+  .lede code{color:var(--text);background:rgba(255,255,255,.07);border:1px solid var(--line);padding:1px 7px;border-radius:5px;font-size:.85em}
+  .cta-row{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap}
+  .btn-solid{background:#ededed;color:#08090b!important;border:1px solid #ededed;padding:11px 22px;border-radius:8px;font-weight:700;text-decoration:none;font-size:.85rem}
+  .btn-solid:hover{background:#fff}
+  .btn-ghost{border:1px solid var(--line);padding:11px 22px;border-radius:8px;text-decoration:none;font-size:.85rem;color:var(--text)}
+  .btn-ghost:hover{border-color:var(--text)}
+  .stats{display:flex;gap:28px;margin-top:28px;font-size:.75rem;color:var(--dim)}
+  .stats b{display:block;color:var(--text);font-size:1.05rem}
+
+  .sheet{
+    background:linear-gradient(180deg,var(--panel2),var(--panel));
+    border:1px solid var(--line);border-radius:12px;overflow:hidden;
+    font-size:.8rem;position:relative;
+  }
+  .sheet::after{content:"+";position:absolute;top:8px;right:12px;color:var(--dim);font-size:.9rem}
+  .sheet-bar{display:flex;gap:8px;align-items:center;padding:11px 16px;border-bottom:1px solid var(--line-soft);color:var(--dim);font-size:.72rem}
+  .sheet-bar .dots{display:flex;gap:6px}
+  .sheet-bar .dots i{width:10px;height:10px;border:1px solid var(--dim);border-radius:50%;display:block}
+  .sheet-bar .dots i:first-child{background:var(--dim)}
+  .sheet-body{padding:18px 18px 20px;line-height:2;white-space:nowrap;overflow-x:auto}
+  .p{color:var(--text)} .c{color:var(--dim)} .m{color:var(--muted)}
+
+  section{padding:48px 0;scroll-margin-top:72px}
+  .sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:8px}
+  .sec-num{font-size:.78rem;color:var(--dim)}
+  .sec-title{font-size:.78rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase}
+  .sec-line{flex:1;height:1px;background:var(--line-soft);transform:translateY(-4px)}
+  h2.big{font-size:clamp(1.4rem,2.6vw,1.9rem);letter-spacing:-.8px;font-weight:700;margin-bottom:6px}
+  .sec-sub{color:var(--muted);margin-bottom:28px;font-size:.85rem}
+  .sec-sub code{color:var(--text);font-size:.85em}
+
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .proj{
+    display:block;padding:22px;border:1px solid var(--line);border-radius:12px;text-decoration:none;
+    background:linear-gradient(180deg,var(--panel2),var(--panel));
+    position:relative;transition:transform .15s,border-color .2s;
+  }
+  .proj::before{content:attr(data-n);position:absolute;top:14px;right:16px;color:var(--dim);font-size:.72rem}
+  .proj:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.3)}
+  .proj .name{font-weight:700;font-size:1.05rem}
+  .proj .name span{color:var(--dim);font-weight:400}
+  .proj:hover .name span{color:var(--text)}
+  .proj .desc{color:var(--muted);font-size:.83rem;margin-top:6px;min-height:2.8em}
+  .proj .stack{color:var(--dim);font-size:.73rem;margin-top:12px;border-top:1px dashed var(--line);padding-top:10px}
+  .proj.full{grid-column:1/-1}
+
+  .rules{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .rule{border:1px solid var(--line);border-radius:12px;padding:22px;background:var(--panel)}
+  .rule .n{color:var(--dim);font-size:.75rem;margin-bottom:10px}
+  .rule b{font-weight:700;display:block;margin-bottom:6px}
+  .rule p{color:var(--muted);font-size:.83rem}
+
+  .contact-card{border:1px solid var(--line);border-radius:12px;padding:36px;display:flex;justify-content:space-between;align-items:center;gap:28px;flex-wrap:wrap;background:linear-gradient(180deg,var(--panel2),var(--panel))}
+  .contact-card h2{font-size:1.4rem;letter-spacing:-.5px;margin:6px 0}
+  .contact-card p{color:var(--muted);font-size:.85rem}
+  .contact-links{display:flex;gap:12px}
+
+  footer{border-top:1px solid var(--line-soft);margin-top:48px;padding:24px 0 36px;color:var(--dim);font-size:.75rem}
+  .foot{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  footer a{color:var(--muted);text-decoration:none}
+  footer a:hover{color:var(--text)}
+
+  @media(max-width:860px){
+    .hero{grid-template-columns:1fr;padding:56px 0 40px;gap:32px}
+    .grid{grid-template-columns:1fr}
+    .proj.full{grid-column:auto}
+    .rules{grid-template-columns:1fr}
+    .nav-links a.nl{display:none}
+    .contact-card{padding:24px}
+  }
+</style>
+</head>
+<body>
+
+<div id="splash" aria-hidden="true">
+  <img src="utilo.jpg" alt="utilo logo">
+  <div class="s-t">utilo_</div>
+  <div class="s-s">small tools i wish already existed</div>
+  <div class="bar"><i></i></div>
+</div>
+
+<header>
+  <div class="wrap nav">
+    <a class="wordmark" href="#top"><img src="utilo.jpg" alt="utilo logo">utilo<i>_</i></a>
+    <nav class="nav-links">
+      <a class="nl" href="#projects">projects</a>
+      <a class="nl" href="#approach">approach</a>
+      <a class="nl" href="#contact">contact</a>
+      <a class="btn" href="https://github.com/devsurx" target="_blank" rel="noopener">github ↗</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top" class="wrap">
+
+  <div class="hero">
+    <div>
+      <div class="eyebrow"><b>utilo</b> — index of small tools · by surx</div>
+      <h1>small tools i wish <span>already existed.</span></h1>
+      <p class="lede">everything in one place — <code>synapse</code>, <code>synapse-web</code>, <code>together</code>, <code>ezcontroller</code>, <code>devassist</code>. what it does, what it's built with, link to source.</p>
+      <div class="cta-row">
+        <a class="btn-solid" href="#projects">browse projects ↓</a>
+        <a class="btn-ghost" href="#approach">$ cat approach.txt</a>
+      </div>
+      <div class="stats">
+        <span><b>05</b>projects</span>
+        <span><b>100%</b>open source</span>
+        <span><b>00</b>fluff</span>
+      </div>
+    </div>
+
+    <div class="sheet" aria-hidden="true">
+      <div class="sheet-bar">
+        <span class="dots"><i></i><i></i><i></i></span>
+        <span>surx@utilo: ~/projects — 80×24</span>
+      </div>
+      <div class="sheet-body"><span class="p">$</span> <span class="m">ls ./projects</span><br><span class="p">synapse/</span> <span class="m">study garden</span> <span class="c">— dart · flutter</span><br><span class="p">synapse-web/</span> <span class="m">focus companion</span> <span class="c">— typescript</span><br><span class="p">together/</span> <span class="m">for couples</span> <span class="c">— javascript · pwa</span><br><span class="p">ezcontroller/</span> <span class="m">phone→controller</span> <span class="c">— websockets</span><br><span class="p">devassist/</span> <span class="m">terminal assistant</span> <span class="c">— python</span><br><span class="p">$</span> <span class="c">▊</span></div>
+    </div>
+  </div>
+
+  <section id="projects">
+    <div class="sec-head"><span class="sec-num">01</span><span class="sec-title">// projects</span><span class="sec-line"></span></div>
+    <h2 class="big">Index.</h2>
+    <p class="sec-sub">one entry per project. live on <code>github.com/devsurx</code>.</p>
+    <div class="grid">
+      <a class="proj" data-n="DWG.01" href="https://github.com/devsurx/Synapse" target="_blank" rel="noopener">
+        <div class="name">synapse <span>→</span></div>
+        <div class="desc">AI study companion — turns the grind into a calm study garden with Google Gemini.</div>
+        <div class="stack">dart / flutter / gemini</div>
+      </a>
+      <a class="proj" data-n="DWG.02" href="https://github.com/devsurx/Synapse-Web" target="_blank" rel="noopener">
+        <div class="name">synapse-web <span>→</span></div>
+        <div class="desc">calm focus companion for the browser. deep-work sessions, streaks, learning tools.</div>
+        <div class="stack">typescript</div>
+      </a>
+      <a class="proj" data-n="DWG.03" href="https://github.com/devsurx/together" target="_blank" rel="noopener">
+        <div class="name">together <span>→</span></div>
+        <div class="desc">daily-use PWA for long-distance couples — one prompt, one mood check-in, one streak.</div>
+        <div class="stack">javascript / pwa</div>
+      </a>
+      <a class="proj" data-n="DWG.04" href="https://github.com/devsurx/EzController" target="_blank" rel="noopener">
+        <div class="name">ezcontroller <span>→</span></div>
+        <div class="desc">turns a phone into a wireless gyro-enabled xbox 360 controller for PC racing games.</div>
+        <div class="stack">python / websockets / html5</div>
+      </a>
+      <a class="proj full" data-n="DWG.05" href="https://github.com/devsurx/DevAssist" target="_blank" rel="noopener">
+        <div class="name">devassist <span>→</span></div>
+        <div class="desc">terminal AI coding assistant — multi-model fallback via openrouter, streaming markdown, file-aware chat.</div>
+        <div class="stack">python / openrouter</div>
+      </a>
+    </div>
+  </section>
+
+  <section id="approach">
+    <div class="sec-head"><span class="sec-num">02</span><span class="sec-title">// approach</span><span class="sec-line"></span></div>
+    <h2 class="big">How these get built.</h2>
+    <p class="sec-sub">three rules. held loosely, broken rarely.</p>
+    <div class="rules">
+      <div class="rule"><div class="n">[ 01 ]</div><b>Small scope, finished.</b><p>one thing, end-to-end. tiny + shipped beats large + almost-done.</p></div>
+      <div class="rule"><div class="n">[ 02 ]</div><b>Scratch my own itch.</b><p>built because i needed them — studying, coding, gaming, staying close.</p></div>
+      <div class="rule"><div class="n">[ 03 ]</div><b>Open source by default.</b><p>readable and forkable. code is the documentation.</p></div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="sec-head"><span class="sec-num">03</span><span class="sec-title">// contact</span><span class="sec-line"></span></div>
+    <div class="contact-card">
+      <div>
+        <div class="eyebrow" style="margin:0">$ whois surx — india</div>
+        <h2>Surx — builder of small tools.</h2>
+        <p>open to internships, freelance, collabs. fastest reply on github.</p>
+      </div>
+      <div class="contact-links">
+        <a class="btn-solid" href="https://github.com/devsurx" target="_blank" rel="noopener">github ↗</a>
+        <a class="btn-ghost" href="https://portfolio-safal.netlify.app/" target="_blank" rel="noopener">portfolio ↗</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span>© <span id="yr">2026</span> utilo_ — "small tools i wish already existed."</span>
+    <span><a href="#top">back to top ↑</a> · <a href="https://github.com/devsurx" target="_blank" rel="noopener">github</a></span>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+  // splash: hide on load, skip on reduced motion / repeat visits in same session
+  (function(){
+    var s = document.getElementById('splash');
+    function hide(){ s.classList.add('hide'); setTimeout(function(){ s.remove(); }, 600); }
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { hide(); return; }
+    if (sessionStorage.getItem('utilo_splash')) { hide(); return; }
+    window.addEventListener('load', function(){ setTimeout(function(){ sessionStorage.setItem('utilo_splash','1'); hide(); }, 1100); });
+    setTimeout(function(){ if (document.body.contains(s)) hide(); }, 3000); // failsafe
+  })();
+</script>
+</body>
+</html>
