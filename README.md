@@ -13,7 +13,7 @@ live projects:
 | 03 | [together](https://github.com/devsurx/together) | daily PWA for long-distance couples | javascript / pwa |
 | 04 | [ezcontroller](https://github.com/devsurx/EzController) | phone → wireless xbox 360 controller | python / websockets / html5 |
 | 05 | [devassist](https://github.com/devsurx/DevAssist) | terminal AI coding assistant | python / openrouter |
-| 06 | [orbit](https://utilo-sable.vercel.app/orbit) | radial file converter — shift-drag, pick a petal, done | rust / tauri / react |
+| 06 | [orbit](https://utilo-sable.vercel.app/orbit/) | radial file converter — shift-drag, pick a petal, done | rust / tauri / react |
 
 ## run it
 
